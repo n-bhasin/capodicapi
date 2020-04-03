@@ -1,0 +1,113 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Chat</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- header -->
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4 p-10">
+                        <h1>Chat Room</h1>
+                    </div>
+                    <div class=" alert alert-primary col-md-3 mtop-5"  id="box" role="alert">
+                        <p class="" id="status"></p>
+                    </div>
+                </div>
+
+                <hr>
+            </div>
+
+            <!-- main chat room -->
+            <div class="col-md-12">
+                <div class="row">
+                    <!-- profile view -->
+                    <div class="col-md-5">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12 text-center p-10" style="padding-bottom: 20px;">
+                                    <!-- profile picture -->
+                                    <img src="images.png" alt="no images" style="border-radius: 25px;">
+                                    <span class="status"></span>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-row align-items-center">
+                                        <div class="col-md-12  text-center">
+                                            <h3 class="text-center">Choose A Nickname</h1>
+                                        </div>
+                                        <div class="col-md-5 my-1" style="margin-left: 85px;">
+                                            <input type="text" class="form-control" name="username" id="username">
+                                        </div>
+                                        <div class="col-auto my-1">
+                                            <button class="btn btn-primary" id="usernameSend">NICKNAME</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-center" style="padding-top:10px;">
+                                    <button class="btn btn-primary" id="room1">Room1</button>
+                                    <button class="btn btn-primary" id="room2">Room2</button>
+                                    <button class="btn btn-primary" id="room3">Room3</button>
+                                    <button class="btn btn-primary" id="room4">Room4</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- chat view -->
+                    <div class="col-md-7" >
+                        <div class="col-md-12 chatFrame">
+                            <div class="row">
+
+                                <div class="col-md-12" id="chatroom" aria-placeholder="start chatting with your friends">
+                                    <div id="feedback"></div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-row align-items-center">
+                                        <div class="col-md-10 my-1">
+                                            <input type="text" class="form-control" id="message"
+                                                placeholder="Type your message...">
+                                        </div>
+                                        <div class="col-auto my-1">
+                                            <button type="submit" class="btn btn-primary" id="messageSend">SEND</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-md-2">
+                        <div class="col-md-12 p-10" id='onlineUser' style="background-color:chocolate;">
+
+                        </div>
+                    </div> -->
+
+                </div>
+            </div>
+
+            <!-- footer -->
+            <div class="col-md-12">
+                <hr>
+                <p>&#169;ChatGroup-2020</p>
+            </div>
+
+        </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="chat.js"></script>
+</body>
+
+</html>

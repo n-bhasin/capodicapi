@@ -1,0 +1,32 @@
+.p-10{
+    padding: 10px;
+}
+.mtop-5{
+    margin-top: 4px;
+}
+.chatFrame{
+    border-left: 1px solid #333333;
+    padding-top:20px;
+    padding-right: 30px;
+    padding-left:30px;
+}
+#chatroom {    
+    height:380px;
+    overflow-y: scroll;
+
+}
+.chat-message {
+    margin-top: 5px;
+    padding: 7px;
+    font-size: 20px;
+    background-color: rgb(240,240,240);
+    box-shadow: 5px 10px 10px rgb(235,235,235);
+    border-radius: 5px;
+}
+.chat-message-dateTime{
+    margin-left: 500px; 
+    font-size: 12px;
+}
+.updateMessage{
+    color: #0879FA;
+}
