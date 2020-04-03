@@ -65,7 +65,7 @@ io.on('connection', (client) => {
     //new-user connected notification
     client.on('newUser', (data) => {
         io.sockets.emit('newUser', { username: client.username })
-        // logSave({ logtype: "new user", name: `${client.username}`, message: `${client.username} joined the chat` })
+        logSave({ logtype: "new user", name: `${client.username}`, message: `${client.username} joined the chat` })
 
     })
 
