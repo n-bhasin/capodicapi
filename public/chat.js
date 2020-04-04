@@ -54,16 +54,16 @@ $(function () {
             socket.emit('changeUsername', { username: username.val() })
             // oldConnName = newConnName;
             // newConnName = username.val();
-            socket.emit('update');
+            socket.emit('update', {oldname: newConnName, username: username.val()});
             
             // document.getElementById(newConnName).innerHTML = username.val();
 
         });
-        socket.on('update', ()=>{
+        socket.on('update', (data)=>{
             console.log(newConnName)
             console.log(username.val())
             chatroom.append(`
-                <p class="updateMessage text-center" >${newConnName} is now ${username.val()}.</p>
+                <p class="updateMessage text-center" >${data.oldname} is now ${data.username}.</p>
             `)
         })
 
