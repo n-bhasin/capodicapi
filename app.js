@@ -157,7 +157,7 @@ io.on('connection', (client) => {
     })
 
     client.on('update', ()=> {
-        io.sockets.emit('update')
+        client.broadcast.emit('update')
     })
 
 

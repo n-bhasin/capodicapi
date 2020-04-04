@@ -54,7 +54,7 @@ $(function () {
             socket.emit('changeUsername', { username: username.val() })
             // oldConnName = newConnName;
             // newConnName = username.val();
-            socket.broadcast.emit('update');
+            socket.emit('update');
             
             // document.getElementById(newConnName).innerHTML = username.val();
 
