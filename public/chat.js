@@ -63,7 +63,7 @@ $(function () {
             console.log(newConnName)
             console.log(username.val())
             chatroom.append(`
-                <p class="updateMessage text-center" >${data.oldname} is now ${data.username}.</p>
+                <p class="updateMessage text-center" >${newConnName} is now ${username.val()}.</p>
             `)
         })
 
