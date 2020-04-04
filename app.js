@@ -23,7 +23,7 @@ app.use('/', (req, res) => {
 server = app.listen(PORT, () => console.log(`Server is listening on ${PORT}.`));
 
 //Database connection..
-const db_url = 'mongodb://localhost:27017/chatRoom?readPreference=primary&appname=MongoDB%20Compass&ssl=false';
+const db_url = 'mongodb+srv://local_library_user:local_library@cluster0-nhau9.azure.mongodb.net/capodicapi?retryWrites=true&w=majority';
 var mongoDB = process.env.MONGODB_URI || db_url;
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology:true});
 var db = mongoose.connection;
