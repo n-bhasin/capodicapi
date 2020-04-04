@@ -61,7 +61,7 @@ $(function () {
         });
         socket.on('update', ()=>{
             chatroom.append(`
-                <p class="updateMessage text-center" >${oldConnName} is now ${newConnName}.</p>
+                <p class="updateMessage text-center" >${oldConnName} is now ${username.val()}.</p>
             `)
         })
 
