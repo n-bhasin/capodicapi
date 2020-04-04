@@ -24,9 +24,13 @@ server = app.listen(PORT, () => console.log(`Server is listening on ${PORT}.`));
 
 //Database connection..
 const db_url = 'mongodb://localhost:27017/chatRoom?readPreference=primary&appname=MongoDB%20Compass&ssl=false';
-mongoose.connect(db_url, { useUnifiedTopology: true, useNewUrlParser: true })
-    .then(console.log('Database is connected....!'))
-    .catch((error) => { `Database Error: ${error}` })
+var mongoDB = process.env.MONGODB_URI || db_url;
+mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology:true});
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+// mongoose.connect(db_url, { useUnifiedTopology: true, useNewUrlParser: true })
+//     .then(console.log('Database is connected....!'))
+//     .catch((error) => { `Database Error: ${error}` })
 
 
 //socket.io instantiation
