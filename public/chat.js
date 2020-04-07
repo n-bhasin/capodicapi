@@ -1,7 +1,7 @@
 $(function () {
 
     //make socket connection
-    var socket = io.connect('https://capodicapi.herokuapp.com/');
+    var socket = io.connect('http://localhost:4000');
 
     //grab all the buttons and inputs
     var username = $('#username');
@@ -11,6 +11,10 @@ $(function () {
     var message = $('#message')
     var messageSend = $('#messageSend');
     var onlineUser = $('#onlineUser')
+    var room1 = $('#room1');
+    var room2 = $('#room2');
+    var room3 = $('#room3');
+    var room4 = $('#room4');
     var status = document.getElementById('status');
     var box = $('#box');
     var newConnName = ''
@@ -29,7 +33,17 @@ $(function () {
         box.show();
     }
 
+    //btn object
+    var specificBtn = {
+        messageSend: 'message',
+        room1:'room1',
+        room2:'room2',
+        room3: 'room3',
+        room4: 'room4'
+    }
 
+    var currentRoom  = 'room1';
+    var roomId = 'room1'
     //check for connection
     if (socket !== undefined) {
         console.log('Connected to socket...');
@@ -43,11 +57,6 @@ $(function () {
             `)
         })
 
-
-        //emit message on button click
-        messageSend.click(function () {
-            socket.emit('message', { message: message.val() })
-        })
 
         //emit username on button click
         usernameSend.click(() => {
@@ -71,19 +80,7 @@ $(function () {
 
         //Listen on typing
 
-        //display message on screen
-        socket.on('message', (data) => {
-            feedback.html('');
-            message.val('');
-            console.log()
-            chatroom.append(
-                `<p class='chat-message'> ${data.username}: ${data.message}
-                    </br> <small class="chat-message-dateTime">${data.date} ${data.time}</small>
-                </p>`
-            )
-
-        });
-
+        
         socket.on('status', (data) => {
             sendNotification(data)
 
@@ -98,6 +95,62 @@ $(function () {
             feedback.html("<p><i>" + data.username + " is typing a message..." + "</i></p>")
         })
 
+        room2.click(specificBtn.room2, ()=>{
+            console.log('Room2 Joined')
+            currentRoom = 'Cranium Focus'
+            roomId = 'room2'
+            console.log(`Current Room: ${currentRoom}`)
+            socket.emit(specificBtn.room1, {currentRoom: currentRoom, roomId: roomId, name: username.val()})
+        })
+        room3.click(specificBtn.room3, ()=>{
+            console.log('Room3 Joined')
+            currentRoom = 'Team Territory'
+            roomId = 'room3'
+            console.log(`Current Room: ${currentRoom}`)
+            socket.emit(specificBtn.room1, {currentRoom: currentRoom, roomId: roomId, name: username.val()})
+        })
+        room4.click(specificBtn.room4, ()=>{
+            console.log('Room4 Joined')
+            currentRoom = 'Bored Room'
+            roomId = 'room4'
+            console.log(`Current Room: ${currentRoom}`)
+            socket.emit(specificBtn.room1, {currentRoom: currentRoom, roomId: roomId, name: username.val()})
+        })
+
+        
+        // update the private chat enabled
+        socket.on('privateWelcome', (data)=>{
+            console.log(data);
+            chatroom.append(
+                `<p class="updateMessage text-center" >${data.welcomeMsg}.</p>`  
+            )
+        })
+        //updating the current room.
+        socket.on('roomUpdate', (data)=>{
+            console.log(newConnName)
+            console.log(username.val())
+            chatroom.append(`
+                <p class="updateMessage text-center" >${data.message}.</p>
+            `)
+        })
+
+        //emit specific room on button click
+        messageSend.click(function () {
+            // roomId = 'room1'
+            socket.emit(specificBtn.messageSend, { message: message.val(), room: roomId })
+        })
+        
+    
+        socket.on('message', (data)=>{
+            feedback.html('');
+            message.val('');
+            console.log()
+            chatroom.append(
+                `<p class='chat-message'> ${data.username}: ${data.message}
+                    </br> <small class="chat-message-dateTime">${data.date} ${data.time}</small>
+                </p>`
+            )
+        })
 
     }
 
