@@ -168,10 +168,7 @@ io.on('connection', (client) => {
         let username = client.username;
         let room = data.room;
         let date = moment().format('MMMM Do, YYYY');    
-        let d = new Date();
-        let h = d.getHours();
-        let m = d.getMinutes();
-        let time = `${h}:${m}`;
+        let time = moment().format('LT');
         //check for name and message
         // console.log('room inside message event '+ room)
         if (message == '') {
