@@ -44,6 +44,7 @@ $(function () {
 
     var currentRoom  = 'room1';
     var roomId = 'room1'
+    var oldroomname;
     //check for connection
     if (socket !== undefined) {
         console.log('Connected to socket...');
@@ -63,7 +64,7 @@ $(function () {
             socket.emit('changeUsername', { username: username.val() })
             // oldConnName = newConnName;
             // newConnName = username.val();
-            socket.emit('update', {oldname: newConnName, username: username.val()});
+            socket.emit('update', data);
             
             // document.getElementById(newConnName).innerHTML = username.val();
 
@@ -72,7 +73,7 @@ $(function () {
             console.log(newConnName)
             console.log(username.val())
             chatroom.append(`
-                <p class="updateMessage text-center" >${newConnName} is now ${username.val()}.</p>
+                <p class="updateMessage text-center" >${data.oldname} is now ${data.newname}.</p>
             `)
         })
 
@@ -95,26 +96,60 @@ $(function () {
             feedback.html("<p><i>" + data.username + " is typing a message..." + "</i></p>")
         })
 
+        room1.click(specificBtn.room1, ()=>{
+            console.log('Room2 Joined')
+            currentRoom = 'Community Focus'
+            roomId = 'room1'
+            oldroomname= 'Community Spot';
+            console.log(`Current Room: ${currentRoom}`)
+            socket.emit(specificBtn.room1, {
+                currentRoom: currentRoom, 
+                roomId: roomId, 
+                name: username.val(),
+                oldroom: 'room1',
+                oldroomname: ''
+            })
+        })
         room2.click(specificBtn.room2, ()=>{
             console.log('Room2 Joined')
             currentRoom = 'Cranium Focus'
             roomId = 'room2'
+            oldroomname= 'Community Spot';
             console.log(`Current Room: ${currentRoom}`)
-            socket.emit(specificBtn.room1, {currentRoom: currentRoom, roomId: roomId, name: username.val()})
+            socket.emit(specificBtn.room1, {
+                currentRoom: currentRoom, 
+                roomId: roomId, 
+                name: username.val(),
+                oldroom: 'room1',
+                oldroomname: 'Community Spot'
+            })
         })
         room3.click(specificBtn.room3, ()=>{
             console.log('Room3 Joined')
             currentRoom = 'Team Territory'
             roomId = 'room3'
+            oldroomname= 'Cranium Focus';
             console.log(`Current Room: ${currentRoom}`)
-            socket.emit(specificBtn.room1, {currentRoom: currentRoom, roomId: roomId, name: username.val()})
+            socket.emit(specificBtn.room1, {
+                currentRoom: currentRoom, 
+                roomId: roomId, 
+                name: username.val(),
+                oldroom: 'room2',
+                oldroomname: 'Cranium Focus'})
         })
         room4.click(specificBtn.room4, ()=>{
             console.log('Room4 Joined')
             currentRoom = 'Bored Room'
             roomId = 'room4'
+            oldroomname = 'Team Territory'
             console.log(`Current Room: ${currentRoom}`)
-            socket.emit(specificBtn.room1, {currentRoom: currentRoom, roomId: roomId, name: username.val()})
+            socket.emit(specificBtn.room1, {
+                currentRoom: 
+                currentRoom, 
+                roomId: roomId, 
+                name: username.val(),
+                oldroom: 'room3',
+                oldroomname: 'Team Territory'})
         })
 
         
@@ -134,10 +169,16 @@ $(function () {
             `)
         })
 
+        socket.on('roomLeft', (data)=>{
+            console.log(data+ 'roomleft')
+            chatroom.append(`
+                <p class="updateMessage text-center" >${data.message}.</p>
+            `)
+        })
         //emit specific room on button click
         messageSend.click(function () {
             // roomId = 'room1'
-            socket.emit(specificBtn.messageSend, { message: message.val(), room: roomId })
+            socket.emit(specificBtn.messageSend, { message: message.val(), room: roomId, oldroomname:oldroomname })
         })
         
     

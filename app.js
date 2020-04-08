@@ -33,6 +33,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 //     .catch((error) => { `Database Error: ${error}` })
 
 let count = 1;
+let oldRoom;
 //socket.io instantiation
 const io = require('socket.io')(server)
 
@@ -56,19 +57,12 @@ io.on('connection', (client) => {
         console.log(`******LOG TABLE*******`)
         console.log(result);
     }
-
+    
     //disconnect
-    io.on('disconnect', () => {
-        console.log('Server/User Disconnected');
-        logSave({
-            logtype: 'offline',
-            name: client.username,
-            message: `${client.username}  left the chat.`
-        })
-    })
+    
     //new-user connected notification
     client.on('newUser', (data) => {
-        io.sockets.emit('newUser', { username: client.username, room:'Community Spot' })
+        io.sockets.emit('newUser', { username: client.username })
         logSave({ logtype: "new user", name: `${client.username}`, message: `${client.username} joined the chat` })
 
     })
@@ -89,27 +83,10 @@ io.on('connection', (client) => {
         else {
             let oldname = client.username;
             client.username = data.username;
-            client.broadcast.emit("changeUsername");
+            client.broadcast.emit("update", {oldname: oldname, newname: client.username});
             sendNotification('Username Changed', `${client.username}`, `${oldname} is now ${client.username}`);
 
         }
-
-        // async function changeUsername(){
-        //     Chat.find({sender: data.username}, (err, result)=> {
-        //         if(err) console.log(`Username find error: ${err}`)
-        //         else{
-        //             console.log(result);
-        //             if(!result){
-        //                 
-        //             }
-        //             else{
-        //                 sendNotification(`${client.username} is already in used.`)
-        //             }
-        //         }
-
-        //     })
-        // }
-        // changeUsername();
 
     })
 
@@ -125,14 +102,10 @@ io.on('connection', (client) => {
 
     //onclick on btn  room1
     client.on('room1', (room) => {
+        oldRoom = room.oldroom;
         
-        console.log('Joined room '+ room.roomId);
-        let date = moment().format('MMMM Do, YYYY');
-        let time = moment().format('HH:mm')
-
         client.join(room.roomId);
-        console.log(room)
-        console.log(room.name)
+        
         //emit the welcome msg
         client.emit('privateWelcome', { welcomeMsg: `Welcome to ${room.currentRoom}` })
         logSave({ logtype: "New Room", name: room.name, message: `${room.name} joined ${room.currentRoom}` })
@@ -140,6 +113,16 @@ io.on('connection', (client) => {
         io.to(room.roomId).emit('roomUpdate', {
             message: `${room.name} joined ${room.currentRoom}`,
         })
+
+        client.leave(oldRoom,()=>{
+            // console.log(room.name+'user left '+ oldRoom);
+            logSave({ logtype: 'Room Left', name: room.name, message: `${room.name} left ${room.oldroomname}` })
+            io.to(oldRoom).emit('roomUpdate', {
+                message: `${room.name} left ${room.oldroomname}`
+            })
+
+        })
+        
     })
 
     //emit message 
@@ -151,7 +134,7 @@ io.on('connection', (client) => {
         let date = moment().format('MMMM Do, YYYY');
         let time = moment().format('HH:mm')
         //check for name and message
-        console.log('room inside message event '+ room)
+        // console.log('room inside message event '+ room)
         if (message == '') {
             //send status
             sendNotification('Error', username, 'Please enter your message.')
@@ -167,7 +150,7 @@ io.on('connection', (client) => {
                 })
                 const result = await chat.save();
                 // console.log('else worked')
-                console.log(room)
+                console.log('********CHAT SAVED*******')
                 console.log(result)
                 // console.log(room)
                 io.to(room).emit('message', {
@@ -181,19 +164,19 @@ io.on('connection', (client) => {
             }
 
             if(room === 'room2'){
-                console.log(room)
+                // console.log(room)
                 console.log('chats of only room2')
                 saveChat();
 
             }
             else if(room === 'room3'){
-                console.log(room)
+                // console.log(room)
                 console.log('chats of only room3')
                 saveChat();
 
             }
             else if(room === 'room4'){
-                console.log(room)
+                // console.log(room)
                 console.log('chats of only room4')
                 saveChat();
 
@@ -210,7 +193,7 @@ io.on('connection', (client) => {
                     })
                     const result = await chat.save();
                     // console.log('else worked')
-                    console.log(room)
+                    console.log('********CHAT SAVED*******')
                     console.log(result)
                     // console.log(room)
                     io.sockets.emit('message', {
@@ -230,7 +213,4 @@ io.on('connection', (client) => {
         }
     })
 
-    client.on('leave', ()=>{
-
-    })
 })
