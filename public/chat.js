@@ -1,9 +1,9 @@
 $(function () {
 
     //make socket connection
-    var socket = io.connect('http://localhost:4000');
+    // var socket = io.connect('http://localhost:4000');
     //heroku url
-    //var socket = io.connect('https://capodicapi.herokuapp.com/');
+    var socket = io.connect('https://capodicapi.herokuapp.com/');
 
     //grab all the buttons and inputs
     var username = $('#username');
