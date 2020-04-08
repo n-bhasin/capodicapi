@@ -220,6 +220,7 @@ $(function () {
                     <tr>
                         <td>${data[i].sender}</td>
                         <td>${data[i].message}</td>
+                        <td>${data[i].room}</td>
                         <td>${data[i].date}</td>
                         <td>${data[i].time}</td>
                     </tr>
