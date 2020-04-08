@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
+    
     <title>Capo Di Capi</title>
 </head>
 
@@ -23,6 +24,18 @@
                     <div class=" alert alert-primary col-md-3 mtop-5"  id="box" role="alert">
                         <p class="" id="status"></p>
                     </div>
+
+                    <div class="col-md-5 form-inline">
+                        <div class="form-group mx-sm-2 mb-2">
+                            <label for="inputPassword2" class="sr-only">Password</label>
+                            <input type="text" class="form-control" id="userSearch" placeholder="name of user">
+                            
+                        </div>
+                        <button type="submit" id="searchBtn" class="btn btn-primary mb-2">HISTORY & LOGS</button>
+                        
+                    </div>
+
+    
                 </div>
 
                 <hr>
@@ -103,13 +116,66 @@
                 <p class="text-center">&#169;Capo Di Capi-2020</p>
             </div>
 
-        </div>
+            <div class="col-md-6 historyLogTable" id='historyTable' style="display: none;">
+                <div class="row">
+                    
+                    <div class="col-md-12" >
+                        <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button> -->
+                         <span style="margin-left:190px; font-size:18px;"><b>Only First 10 Records</b></span>
+                         <span><button class="btn btn-danger" id="closebtn" 
+                            style="border-radius: 5px; margin-left:160px; margin-bottom:5px;">CLOSE</button></span>
+                        
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <div class="row"></div> 
+                            <div class="col-md-4 btn btn-primary" id="chatbtn">CHATS</div>
+                            <div class="col-md-4 btn btn-primary" id="logbtn">LOGS</div>
+                        </div>
+                        
+                    </div>
+    
+                    <div class="col-md-12" id="history">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>Sender</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                            </thead>
+                            <tbody id="tbody">
+        
+                            </tbody>
+                        </table>
+                    </div>  
+                    
+                    <div class="col-md-12" id="logs" style="display: none;">
+                        <table class="table table-bordered">
+                            <thead>
+                                <th>Log Type</th>
+                                <th>Name</th>
+                                <th>Message</th>
+                                <th>Date & Time</th>
+                            </thead>
+                            <tbody id="tbodylog">
+        
+                            </tbody>
+                        </table>
+                    </div>  
+                    
+                </div>
+                
+                
+            </div>
+        </div>  
     </div>
     <script
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="chat.js"></script>
 </body>
 

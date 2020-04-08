@@ -100,6 +100,42 @@ io.on('connection', (client) => {
         io.sockets.emit('update')
     })
 
+    /***Search user chat history and logs */
+    client.on('history', (data)=>{
+        console.log(data)
+        if(data === ''){
+            sendNotification('Error', `${client.username}`, `Please fill the field first.`);
+        }
+        else{
+
+            async function history(){
+                
+                
+               const result = await Chat
+                .find({sender: data})
+                // .skip((pageNumber -1) * pageSize)
+                .limit(10)
+                .sort({date: -1, time: -1})
+                console.log('*****Retrieved Chat of Specific User*******')
+                console.log(result);
+
+                client.emit('history', result);
+            }
+            async function logs(){
+                const result = await Log
+                    .find({name: data})
+                    .limit(10)
+                    .sort({date:-1})
+                console.log('*****Retrieved Logs of Specific User*******')
+                console.log(result);
+                client.emit('log', result)
+            }
+            history();
+            logs();
+
+        }
+    })
+
     //onclick on btn  room1
     client.on('room1', (room) => {
         oldRoom = room.oldroom;

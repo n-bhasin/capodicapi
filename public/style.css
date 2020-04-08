@@ -30,3 +30,14 @@
 .updateMessage{
     color: #0879FA;
 }
+.historyLogTable {
+    padding-top: 10px;
+    border-radius: 10px;
+    left: 300px;
+    padding: 5px;
+    top: 120px;
+    background: rgb(245,245,245);
+    position: absolute;
+    box-shadow: 4px 10px 10px rgb(240,240,240);
+    z-index: 999999;
+}

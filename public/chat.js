@@ -1,9 +1,9 @@
 $(function () {
 
     //make socket connection
-    // var socket = io.connect('http://localhost:4000');
+    var socket = io.connect('http://localhost:4000');
     //heroku url
-    var socket = io.connect('https://capodicapi.herokuapp.com/');
+    // var socket = io.connect('https://capodicapi.herokuapp.com/');
 
     //grab all the buttons and inputs
     var username = $('#username');
@@ -20,6 +20,12 @@ $(function () {
     var status = document.getElementById('status');
     var box = $('#box');
     var newConnName = ''
+
+    //search button and input field
+    var searchBtn = $('#searchBtn');
+    var logbtn = $('#logbtn')
+    var chatbtn = $('#chatbtn')
+    var closebtn = $('#closebtn')
     //set the default value of status
     var statusDefault = status.textContent;
     // console.log('')
@@ -193,6 +199,67 @@ $(function () {
                     </br> <small class="chat-message-dateTime">${data.date} ${data.time}</small>
                 </p>`
             )
+        });
+
+        //on the click of search button grab the field value and trigger an event
+        searchBtn.click(()=>{
+            let name = document.getElementById('userSearch').value;
+            console.log(name)
+            socket.emit('history', name);
+        })
+
+        socket.on('history', (data)=>{
+            let historyTable = document.getElementById('historyTable');
+            historyTable.style.display = 'block';
+            
+            let tbody = $('#tbody');
+            for(let i=0; i<data.length; i++){
+                tbody.append(
+                    `
+                    <tr>
+                        <td>${data[i].sender}</td>
+                        <td>${data[i].message}</td>
+                        <td>${data[i].date}</td>
+                        <td>${data[i].time}</td>
+                    </tr>
+                    `
+                )
+            }
+        })
+
+        logbtn.click(()=>{
+            
+            console.log('clicked log btn')
+            document.getElementById('history').style.display = 'none';
+            document.getElementById('logs').style.display = 'block';
+            socket.emit('log');
+        })
+        chatbtn.click(()=>{
+            document.getElementById('history').style.display = 'block';
+            document.getElementById('logs').style.display = 'none';
+            socket.emit('history');
+        })
+        socket.on('log', (data)=>{
+            console.log('log data'+data)
+            let tbody = $('#tbodylog');
+            console.log(tbody)
+            for(let i=0; i<data.length; i++){
+                tbody.append(
+                    `
+                    <tr>
+                        <td>${data[i].logType}</td>
+                        <td>${data[i].name}</td>
+                        <td>${data[i].message}</td>
+                        <td>${data[i].date}</td>
+                    </tr>
+                    `
+                )
+            }
+        })
+
+        closebtn.click(()=>{
+            console.log('close button clicked')
+            document.getElementById('historyTable').style.display = 'none';
         })
 
     }
