@@ -1,9 +1,9 @@
 $(function () {
 
     //make socket connection
-    // var socket = io.connect('http://localhost:4000');
+    var socket = io.connect('http://localhost:4000');
     //heroku url
-    var socket = io.connect('https://capodicapi.herokuapp.com/');
+    // var socket = io.connect('https://capodicapi.herokuapp.com/');
 
     //grab all the buttons and inputs
     var username = $('#username');
@@ -213,6 +213,7 @@ $(function () {
             historyTable.style.display = 'block';
             
             let tbody = $('#tbody');
+            tbody.html('')
             for(let i=0; i<data.length; i++){
                 tbody.append(
                     `
@@ -232,17 +233,18 @@ $(function () {
             console.log('clicked log btn')
             document.getElementById('history').style.display = 'none';
             document.getElementById('logs').style.display = 'block';
-            socket.emit('log');
+            // socket.emit('log');
         })
         chatbtn.click(()=>{
             document.getElementById('history').style.display = 'block';
             document.getElementById('logs').style.display = 'none';
-            socket.emit('history');
+            // socket.emit('history');
         })
         socket.on('log', (data)=>{
             console.log('log data'+data)
             let tbody = $('#tbodylog');
             console.log(tbody)
+            tbody.html('')
             for(let i=0; i<data.length; i++){
                 tbody.append(
                     `
