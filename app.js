@@ -7,7 +7,7 @@ const indexRouter = require("./routes/index");
 const restApiRouter = require("./routes/restApi");
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 
 //set the template the engine
 app.set("view engine", "ejs");
@@ -25,6 +25,11 @@ app.use((req, res, next) => {
 //routes
 app.use("/", indexRouter);
 app.use("/api/capodicapi", restApiRouter);
+
+// app.get("/api/capodicapi/chats", async (req, res) => {
+//   const chat = await Chat.find().sort("-date");
+//   res.send(chat);
+// });
 
 //listening on port
 server = app.listen(PORT, () => console.log(`Server is listening on ${PORT}.`));

@@ -10,6 +10,11 @@ router.get("/chat", async (req, res) => {
   res.json(chat);
 });
 
+router.get("/chat/rooms", async (req, res) => {
+  const rooms = await Chat.find().select("room");
+  res.json(rooms);
+});
+
 router.get("/chat/:id", async (req, res) => {
   const chat = await Chat.findById(req.params.id);
   if (!chat) return res.status(404).send("The Chat with given id not there.");
